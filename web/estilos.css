@@ -1,0 +1,32 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+    background-color: lightgray;
+    margin: 0px;
+}
+h1 {
+    background-color: cornflowerblue;
+    border-bottom: 2px solid black;
+    text-align: center;
+    background-size: cover;
+    padding: 3vh;
+    margin: 0px;
+}
+h2 {
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+ul {
+    list-style: none;
+}
+li {
+    padding-top: 0.3vh;
+    padding-bottom: 0.3vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+li:nth-last-child(even) {
+    background-color: gray;
+    color: aliceblue;
+}

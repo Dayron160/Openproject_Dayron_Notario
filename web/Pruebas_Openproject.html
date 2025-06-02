@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Pruebas OpenProject</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <h1>Entradas de Tiempo</h1>
+    <h2>Entradas ordenadas por fecha de creación</h2>
+    <div id="creacion"></div>
+    <h2>Entradas ordenadas por horas</h2>
+    <div id="horas"></div>
+    <h2>Entradas filtradas por proyecto (Demo Project)</h2>
+    <div id="proyecto"></div>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?sortBy=" + encodeURIComponent('[["createdAt","asc"]]'), true);
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var miObj = JSON.parse(this.responseText);
+                var respuesta = "<ul>";
+                for (i in miObj._embedded.elements) {
+                    respuesta += "<li>" + miObj._embedded.elements[i].subject + " - " + miObj._embedded.elements[i]._links.project.title + " - " + miObj._embedded.elements[i].duration + "</li>";
+                }
+                respuesta += "</ul>"
+                document.getElementById("creacion").innerHTML = respuesta;
+            }
+        };
+        xmlhttp.send();
+    </script>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?sortBy=" + encodeURIComponent('[["duration","asc"]]'), true);
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var miObj = JSON.parse(this.responseText);
+                var respuesta = "<ul>";
+                for (i in miObj._embedded.elements) {
+                    respuesta += "<li>" + miObj._embedded.elements[i].subject + " - " + miObj._embedded.elements[i]._links.project.title + " - " + miObj._embedded.elements[i].duration + "</li>";
+                }
+                respuesta += "</ul>"
+                document.getElementById("horas").innerHTML = respuesta;
+            }
+        };
+        xmlhttp.send();
+    </script>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?filters=" + encodeURIComponent('[{"project": { "operator": "=", "values": [1] }}]'), true);
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var miObj = JSON.parse(this.responseText);
+                var respuesta = "<ul>";
+                for (i in miObj._embedded.elements) {
+                    respuesta += "<li>" + miObj._embedded.elements[i].subject + " - " + miObj._embedded.elements[i]._links.project.title + " - " + miObj._embedded.elements[i].duration + "</li>";
+                }
+                respuesta += "</ul>"
+                document.getElementById("proyecto").innerHTML = respuesta;
+            }
+        };
+        xmlhttp.send();
+    </script>
+</body>
+
+</html>
