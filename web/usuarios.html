@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Entradas por Usuario</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <h1>Entradas por Usuario</h1>
+    <div class="link"><a href="tiempo.html">Entradas de Tiempo</a></div>
+    <form id="formulario">
+        <fieldset>
+            <legend>Usuarios</legend>
+            <select name="usuarios" id="users">
+
+            </select>
+            <input type="submit" value="Filtrar">
+        </fieldset>
+    </form>
+    <div id="tareas"></div>
+
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "http://localhost:8080/api/v3/users", true);
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var miObj = JSON.parse(this.responseText);
+                var respuesta = " ";
+                for (i in miObj._embedded.elements) {
+                    respuesta += "<option value=\"" + miObj._embedded.elements[i].id + "\">" + miObj._embedded.elements[i].name + " - " + miObj._embedded.elements[i].email + "</option>";
+                }
+                document.getElementById("users").innerHTML = respuesta;
+            }
+        };
+        xmlhttp.send();
+    </script>
+    <script>
+        document.getElementById("formulario").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var userId = document.getElementById("users").value;
+            var xmlhttp = new XMLHttpRequest();
+            var filtros = '[{"assignee":{"operator":"=","values":[' + userId + ']}}]';
+            xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?filters=" + encodeURIComponent(filtros), true);
+            xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var miObj = JSON.parse(this.responseText);
+                    var respuesta = "<ul>";
+                    for (i in miObj._embedded.elements) {
+                        var xmlhttp2 = new XMLHttpRequest();
+                        xmlhttp2.open("GET", "http://localhost:8080/api/v3/time_entries?filters=" + encodeURIComponent('[{"workPackage":{"operator":"=","values":["' + miObj._embedded.elements[i].id + '"]}}]'), false);
+                        xmlhttp2.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
+                        xmlhttp2.send();
+                        if (xmlhttp2.status == 200) {
+                            var tiempo = JSON.parse(xmlhttp2.responseText);
+                            if (tiempo._embedded.elements.length > 0) {
+                                for (j in tiempo._embedded.elements) {
+                                    respuesta += "<li>" + miObj._embedded.elements[i].subject + " - " + miObj._embedded.elements[i]._links.project.title + " - " + tiempo._embedded.elements[j].hours + " - " + tiempo._embedded.elements[j].spentOn + "</li>";
+                                }
+                            } else {
+                                respuesta += "<li>" + miObj._embedded.elements[i].subject + " - " + miObj._embedded.elements[i]._links.project.title + " - PT0S </li>";
+                            }
+                        }
+                    }
+                    respuesta += "</ul>"
+                    document.getElementById("tareas").innerHTML = respuesta;
+                }
+            };
+            xmlhttp.send();
+        });
+    </script>
+</body>
+
+</html>

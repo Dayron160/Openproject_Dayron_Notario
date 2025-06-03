@@ -1,10 +1,12 @@
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 body {
     background-color: lightgray;
     margin: 0px;
 }
+
 h1 {
     background-color: cornflowerblue;
     border-bottom: 2px solid black;
@@ -13,20 +15,45 @@ h1 {
     padding: 3vh;
     margin: 0px;
 }
+
+.link {
+    margin: 3vh 1vw 1vh 1vw;
+    text-align: center;
+}
+
+a:hover {
+    color: rgb(255, 115, 0);
+}
+
 h2 {
     margin-left: 1vw;
     margin-right: 1vw;
 }
+
 ul {
     list-style: none;
+    padding-right: 2vw;
 }
+
 li {
     padding-top: 0.3vh;
     padding-bottom: 0.3vh;
     padding-left: 1vw;
     padding-right: 1vw;
 }
+
 li:nth-last-child(even) {
     background-color: gray;
     color: aliceblue;
+}
+form {
+    margin: 1vh 1vw 1vh 2vw;
+}
+fieldset {
+    background-color: gray;
+    display: inline;
+    padding: 1vh 1vw 1vh 1vw;
+}
+legend {
+    font-weight: bolder;
 }

@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Pruebas OpenProject</title>
+    <title>Entradas de Tiempo</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
     <h1>Entradas de Tiempo</h1>
+    <div class="link"><a href="usuarios.html">Entradas por Usuario</a></div>
     <h2>Entradas ordenadas por fecha de creación</h2>
     <div id="creacion"></div>
     <h2>Entradas ordenadas por horas</h2>
@@ -18,7 +19,7 @@
     <script>
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?sortBy=" + encodeURIComponent('[["createdAt","asc"]]'), true);
-        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var miObj = JSON.parse(this.responseText);
@@ -35,7 +36,7 @@
     <script>
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?sortBy=" + encodeURIComponent('[["duration","asc"]]'), true);
-        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var miObj = JSON.parse(this.responseText);
@@ -52,7 +53,7 @@
     <script>
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", "http://localhost:8080/api/v3/work_packages?filters=" + encodeURIComponent('[{"project": { "operator": "=", "values": [1] }}]'), true);
-        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");  
+        xmlhttp.setRequestHeader("Authorization", "Basic YXBpa2V5OjhmN2U0NWE5MWEyNmFiMGY5NTc0Y2UyZTQxNzE1MTY1ZDczMjM1M2MwZDJjYTY3OWM1YWE2OGQ0ODM4Y2RhODA=");
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var miObj = JSON.parse(this.responseText);
